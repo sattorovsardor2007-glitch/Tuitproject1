@@ -6,7 +6,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const Header = ({ toggleSidebar }) => {
   const [isAddOpen, setIsAddOpen] = useState(false);
-  const [isAiOpen, setIsAiOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
@@ -51,23 +50,6 @@ const Header = ({ toggleSidebar }) => {
 
       {/* Right side */}
       <div className="flex items-center gap-3">
-        {/* AICoder Dropdown */}
-        <div className="relative hidden lg:block">
-          <button 
-            onClick={() => setIsAiOpen(!isAiOpen)}
-            className="flex items-center gap-1 bg-white px-4 py-2 rounded-xl border border-gray-200 shadow-sm cursor-pointer hover:bg-gray-50 transition-colors"
-          >
-            <span className="text-[13px] font-medium text-gray-700">AICoder markazi</span>
-            <ExpandMoreIcon fontSize="small" className={`text-gray-400 ml-2 transition-transform ${isAiOpen ? 'rotate-180' : ''}`} />
-          </button>
-          {isAiOpen && (
-            <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50">
-              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Sozlamalar</a>
-              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Yordam</a>
-            </div>
-          )}
-        </div>
-
         {/* Language Selector */}
         <div className="relative hidden sm:block">
           <button 

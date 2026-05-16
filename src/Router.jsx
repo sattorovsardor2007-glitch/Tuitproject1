@@ -3,6 +3,8 @@ import App from "./App";
 import Loginpage from "./Pages/Loginpage/Loginpage";
 import DashboardLayout from "./layouts/DashboardLayout";
 import DashboardHome from "./Pages/Dashboard/DashboardHome";
+import SettingsLayout from "./Pages/Dashboard/Settings/SettingsLayout";
+import Rooms from "./Pages/Dashboard/Settings/Rooms";
 
 // Placeholder component for other dashboard pages
 const Placeholder = ({ title }) => (
@@ -63,8 +65,46 @@ const Router = createBrowserRouter([
             element: <Placeholder title="Moliya" />,
           },
           {
-            path: "settings/*",
-            element: <SettingsPlaceholder />,
+            path: "settings",
+            element: <SettingsLayout />,
+            children: [
+              {
+                index: true,
+                element: null,
+              },
+              {
+                path: "courses",
+                element: <SettingsPlaceholder />,
+              },
+              {
+                path: "rooms",
+                element: <Rooms />,
+              },
+              {
+                path: "employees",
+                element: <SettingsPlaceholder />,
+              },
+              {
+                path: "reasons",
+                element: <SettingsPlaceholder />,
+              },
+              {
+                path: "roles",
+                element: <SettingsPlaceholder />,
+              },
+              {
+                path: "coin",
+                element: <SettingsPlaceholder />,
+              },
+              {
+                path: "messages",
+                element: <SettingsPlaceholder />,
+              },
+              {
+                path: "check",
+                element: <SettingsPlaceholder />,
+              },
+            ],
           },
         ],
       },

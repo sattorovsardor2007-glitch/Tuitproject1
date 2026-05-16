@@ -15,14 +15,9 @@ const SettingsSidebar = ({ isOpen }) => {
   const menuItems = [
     { name: "Kurslar", path: "/dashboard/settings/courses", icon: <ClassOutlinedIcon fontSize="small" /> },
     { name: "Xonalar", path: "/dashboard/settings/rooms", icon: <MeetingRoomOutlinedIcon fontSize="small" /> },
-    { name: "Filial", path: "/dashboard/settings/branches", icon: <BusinessOutlinedIcon fontSize="small" /> },
     { name: "Hodimlar", path: "/dashboard/settings/employees", icon: <PeopleOutlineOutlinedIcon fontSize="small" /> },
-    { name: "Sabablar", path: "/dashboard/settings/reasons", icon: <FormatListBulletedOutlinedIcon fontSize="small" /> },
-    { name: "Rollar", path: "/dashboard/settings/roles", icon: <SupervisorAccountOutlinedIcon fontSize="small" /> },
     { name: "Coin", path: "/dashboard/settings/coin", icon: <MonetizationOnOutlinedIcon fontSize="small" /> },
     { name: "Xabar Yuborish", path: "/dashboard/settings/messages", icon: <ChatBubbleOutlineOutlinedIcon fontSize="small" /> },
-    { name: "FAQ", path: "/dashboard/settings/faq", icon: <HelpOutlineOutlinedIcon fontSize="small" /> },
-    { name: "Tekshiruv", path: "/dashboard/settings/check", icon: <VerifiedUserOutlinedIcon fontSize="small" /> },
   ];
 
   return (

@@ -6,6 +6,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import mohirbekAvatar from "./mohirbek_avatar.png";
 
 const Teachers = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -20,8 +21,8 @@ const Teachers = () => {
       phone: "+998944481309",
       address: "Tashkent",
       createdAt: "12.05.2026",
-      groups: ["N26", "n106"],
-      avatar: null,
+      groups: ["N26", "n105"],
+      avatar: mohirbekAvatar,
       bgColor: "bg-indigo-100 text-indigo-700",
       initial: "M",
     },
@@ -138,11 +139,11 @@ const Teachers = () => {
         </div>
 
         {/* Table Container */}
-        <div className="w-full">
+        <div className="w-full overflow-x-auto rounded-2xl">
           <table className="w-full text-left border-collapse min-w-full">
             <thead>
               <tr className="border-b border-gray-100 text-[13px] font-bold text-gray-500 bg-gray-50/40">
-                <th className="py-4 px-6 w-12 whitespace-nowrap">
+                <th className="py-4 pl-0 pr-4 w-10 whitespace-nowrap">
                   <input
                     type="checkbox"
                     checked={
@@ -153,17 +154,17 @@ const Teachers = () => {
                     className="rounded border-gray-300 text-[#6C5DD3] focus:ring-[#6C5DD3] w-4 h-4 cursor-pointer"
                   />
                 </th>
-                <th className="py-4 px-6 w-[22%] whitespace-nowrap">
+                <th className="py-4 px-3 w-[20%] whitespace-nowrap">
                   <div className="flex items-center gap-1 cursor-pointer hover:text-gray-700">
                     Nomi <span className="text-[10px]">↓</span>
                   </div>
                 </th>
-                <th className="py-4 px-6 w-[14%] whitespace-nowrap">Guruh</th>
-                <th className="py-4 px-6 w-[18%] whitespace-nowrap">Telefon raqamlari</th>
-                <th className="py-4 px-6 w-[18%] whitespace-nowrap">Email</th>
-                <th className="py-4 px-6 w-[12%] whitespace-nowrap">Manzil</th>
-                <th className="py-4 px-6 w-[12%] whitespace-nowrap">Yaratilgan sana</th>
-                <th className="py-4 px-6 text-center w-32 whitespace-nowrap">Amallar</th>
+                <th className="py-4 px-3 w-[12%] whitespace-nowrap">Guruh</th>
+                <th className="py-4 px-3 w-[16%] whitespace-nowrap">Telefon raqamlari</th>
+                <th className="py-4 px-3 w-[20%] whitespace-nowrap">Email</th>
+                <th className="py-4 px-3 w-[12%] whitespace-nowrap">Manzil</th>
+                <th className="py-4 px-3 w-[12%] whitespace-nowrap">Yaratilgan sana</th>
+                <th className="py-4 px-3 text-center w-28 whitespace-nowrap">Amallar</th>
               </tr>
             </thead>
             <tbody>
@@ -177,7 +178,7 @@ const Teachers = () => {
                         isSelected ? "bg-[#6C5DD3]/5" : ""
                       }`}
                     >
-                      <td className="py-4 px-6 whitespace-nowrap">
+                      <td className="py-4 pl-0 pr-4 w-10 whitespace-nowrap">
                         <input
                           type="checkbox"
                           checked={isSelected}
@@ -185,7 +186,7 @@ const Teachers = () => {
                           className="rounded border-gray-300 text-[#6C5DD3] focus:ring-[#6C5DD3] w-4 h-4 cursor-pointer"
                         />
                       </td>
-                      <td className="py-4 px-6 font-semibold text-gray-800 whitespace-nowrap">
+                      <td className="py-4 px-3 font-semibold text-gray-800 whitespace-nowrap">
                         <div className="flex items-center gap-3">
                           {teacher.avatar ? (
                             <img
@@ -203,7 +204,7 @@ const Teachers = () => {
                           <span className="capitalize">{teacher.fullName}</span>
                         </div>
                       </td>
-                      <td className="py-4 px-6 whitespace-nowrap">
+                      <td className="py-4 px-3 whitespace-nowrap">
                         <div className="flex items-center gap-1.5 flex-nowrap whitespace-nowrap">
                           {teacher.groups.map((group) => (
                             <span
@@ -215,19 +216,19 @@ const Teachers = () => {
                           ))}
                         </div>
                       </td>
-                      <td className="py-4 px-6 text-gray-600 font-semibold text-[13.5px] whitespace-nowrap">
+                      <td className="py-4 px-3 text-gray-600 font-semibold text-[13.5px] whitespace-nowrap">
                         {teacher.phone}
                       </td>
-                      <td className="py-4 px-6 text-gray-500 text-[13.5px] whitespace-nowrap">
+                      <td className="py-4 px-3 text-gray-500 text-[13.5px] whitespace-nowrap">
                         {teacher.email}
                       </td>
-                      <td className="py-4 px-6 text-gray-600 font-semibold text-[13.5px] whitespace-nowrap">
+                      <td className="py-4 px-3 text-gray-600 font-semibold text-[13.5px] whitespace-nowrap">
                         {teacher.address}
                       </td>
-                      <td className="py-4 px-6 text-gray-500 text-[13.5px] whitespace-nowrap">
+                      <td className="py-4 px-3 text-gray-500 text-[13.5px] whitespace-nowrap">
                         {teacher.createdAt}
                       </td>
-                      <td className="py-4 px-6 whitespace-nowrap">
+                      <td className="py-4 px-3 whitespace-nowrap">
                         <div className="flex items-center justify-center gap-1.5">
                           <button className="p-1.5 text-gray-400 hover:text-gray-600 transition-colors">
                             <RemoveRedEyeOutlinedIcon sx={{ fontSize: 18 }} />

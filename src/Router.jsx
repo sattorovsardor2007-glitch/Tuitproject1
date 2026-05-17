@@ -8,6 +8,7 @@ import Rooms from "./Pages/Dashboard/Settings/Rooms";
 import Courses from "./Pages/Dashboard/Settings/Courses";
 import Students from "./Pages/Dashboard/Students";
 import Teachers from "./Pages/Dashboard/Teachers";
+import Groups from "./Pages/Dashboard/Groups";
 
 // Placeholder component for other dashboard pages
 const Placeholder = ({ title }) => (
@@ -53,7 +54,11 @@ const Router = createBrowserRouter([
           },
           {
             path: "classes",
-            element: <Placeholder title="Guruhlar" />,
+            element: <Groups />,
+          },
+          {
+            path: "groups",
+            element: <Groups />,
           },
           {
             path: "students",

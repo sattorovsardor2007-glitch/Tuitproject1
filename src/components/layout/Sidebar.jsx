@@ -16,7 +16,7 @@ const Sidebar = ({ isOpen, onIconClick, onSettingsClick }) => {
   const navItems = [
     { name: "Asosiy", path: "/dashboard", icon: <HomeIcon /> },
     { name: "O'qituvchilar", path: "/dashboard/teachers", icon: <PersonIcon /> },
-    { name: "Guruhlar", path: "/dashboard/classes", icon: <LayersIcon /> },
+    { name: "Guruhlar", path: "/dashboard/groups", icon: <LayersIcon /> },
     { name: "Talabalar", path: "/dashboard/students", icon: <SchoolIcon /> },
     { name: "Sovg'alar", path: "/dashboard/gifts", icon: <DiamondIcon /> },
     { name: "Moliya", path: "/dashboard/finance", icon: <AccountBalanceWalletOutlinedIcon />, hasCrown: true },

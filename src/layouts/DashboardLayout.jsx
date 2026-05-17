@@ -22,12 +22,22 @@ const DashboardLayout = () => {
     setIsMenuOpen(true);
   };
 
+  const handleContentClick = () => {
+    if (isSettingsRoot && isSettingsActive) {
+      setIsMenuOpen(false);
+    }
+  };
+
   return (
     <div className="flex h-screen bg-[#f8f9fc] overflow-hidden font-sans relative">
       {/* Sidebar Area with toggle button on its edge */}
       <div className="relative z-50 flex-shrink-0 h-full flex">
         <div className="relative h-full">
-          <Sidebar isOpen={isSidebarOpen} onIconClick={handleIconClick} />
+          <Sidebar 
+            isOpen={isSidebarOpen} 
+            onIconClick={handleIconClick} 
+            onSettingsClick={() => setIsMenuOpen(true)} 
+          />
           
           {/* Collapse Button placed between Sidebar and SettingsSidebar */}
           <button
@@ -51,7 +61,10 @@ const DashboardLayout = () => {
         <Header toggleSidebar={toggleSidebar} />
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+        <main 
+          onClick={handleContentClick}
+          className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8"
+        >
           <Outlet />
         </main>
       </div>

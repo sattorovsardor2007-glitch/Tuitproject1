@@ -11,7 +11,7 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 
-const Sidebar = ({ isOpen, onIconClick }) => {
+const Sidebar = ({ isOpen, onIconClick, onSettingsClick }) => {
   const location = useLocation();
   const navItems = [
     { name: "Asosiy", path: "/dashboard", icon: <HomeIcon /> },
@@ -30,11 +30,16 @@ const Sidebar = ({ isOpen, onIconClick }) => {
       } bg-white h-screen shadow-[4px_0_24px_rgba(0,0,0,0.02)] transition-all duration-300 flex flex-col`}
     >
       {/* Logo */}
-      <div className={`flex items-center gap-2 p-6 ${!isOpen ? 'justify-center px-0' : ''}`}>
-        <MonetizationOnIcon sx={{ color: '#F59E0B', fontSize: 32 }} />
+      <div className={`flex items-center gap-2.5 p-6 ${!isOpen ? 'justify-center px-0' : ''}`}>
+        <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#EA580C] to-[#F97316] flex items-center justify-center shadow-md shadow-orange-500/20 flex-shrink-0">
+          <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.905 0-5.64-.78-8.006-2.141" />
+          </svg>
+        </div>
         {isOpen && (
-          <span className="text-[#6C5DD3] text-2xl font-bold font-sans whitespace-nowrap">
-            EduCoin
+          <span className="text-xl font-bold font-sans whitespace-nowrap tracking-tight">
+            <span className="text-[#1E293B]">Najot</span>
+            <span className="text-[#6C5DD3]">Edu</span>
           </span>
         )}
       </div>
@@ -47,6 +52,9 @@ const Sidebar = ({ isOpen, onIconClick }) => {
             to={item.path}
             end={item.path === "/dashboard"}
             onClick={(e) => {
+              if (item.path === "/dashboard/settings" && onSettingsClick) {
+                onSettingsClick();
+              }
               if (!isOpen && onIconClick) {
                 // If already in this section, prevent navigating to the base path
                 // so we can "continue from where we left off"
@@ -61,13 +69,14 @@ const Sidebar = ({ isOpen, onIconClick }) => {
               }
             }}
             className={({ isActive }) =>
-              `flex items-center ${isOpen ? 'justify-start px-4 gap-3' : 'justify-center px-0'} py-3 rounded-xl transition-all duration-200 text-[15px] font-medium ${
+              `group relative flex items-center ${isOpen ? 'justify-start px-4 gap-3' : 'justify-center px-0'} py-3 rounded-xl transition-all duration-200 text-[15px] font-medium ${
                 isActive
                   ? "bg-[#6C5DD3] text-white shadow-md shadow-[#6c5dd3]/30"
-                  : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                  : isOpen 
+                    ? "text-gray-500 hover:bg-gray-50 hover:text-gray-900" 
+                    : "text-gray-500 hover:bg-[#EEEDFC] hover:text-[#6C5DD3]"
               }`
             }
-            title={!isOpen ? item.name : ""}
           >
             <span className="flex items-center justify-center">
               {item.icon}
@@ -75,6 +84,18 @@ const Sidebar = ({ isOpen, onIconClick }) => {
             {isOpen && <span className="flex-1 text-left whitespace-nowrap">{item.name}</span>}
             {isOpen && item.hasCrown && (
               <EmojiEventsIcon sx={{ fontSize: 18, color: '#F59E0B' }} />
+            )}
+
+            {/* Custom Tooltip when Sidebar is Collapsed */}
+            {!isOpen && (
+              <div className="absolute left-[calc(100%+8px)] top-1/2 -translate-y-1/2 opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 pointer-events-none transition-all duration-200 z-[9999] flex items-center">
+                {/* Arrow */}
+                <div className="w-0 h-0 border-y-[6px] border-y-transparent border-r-[6px] border-r-[#1E293B]" />
+                {/* Tooltip Content */}
+                <div className="bg-[#1E293B] text-white text-[12px] font-semibold px-3 py-1.5 rounded-lg whitespace-nowrap shadow-md">
+                  {item.name}
+                </div>
+              </div>
             )}
           </NavLink>
         ))}

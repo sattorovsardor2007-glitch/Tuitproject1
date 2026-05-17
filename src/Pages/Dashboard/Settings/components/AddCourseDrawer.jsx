@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import { createPortal } from "react-dom";
 import CloseIcon from "@mui/icons-material/Close";
 
-const AddRoomDrawer = ({ isOpen, onClose }) => {
+const AddCourseDrawer = ({ isOpen, onClose, onSave }) => {
   const [formData, setFormData] = useState({
     name: "",
-    capacity: "",
+    description: "",
+    duration: "",
+    period: "",
+    price: "",
   });
 
   const handleChange = (e) => {
@@ -14,8 +17,20 @@ const AddRoomDrawer = ({ isOpen, onClose }) => {
   };
 
   const handleSave = () => {
+    if (!formData.name || !formData.duration || !formData.period || !formData.price) {
+      alert("Iltimos, barcha majburiy maydonlarni to'ldiring!");
+      return;
+    }
+    // Call the parent save handler with the new course data
+    onSave(formData);
     // Reset form and close
-    setFormData({ name: "", capacity: "" });
+    setFormData({
+      name: "",
+      description: "",
+      duration: "",
+      period: "",
+      price: "",
+    });
     onClose();
   };
 
@@ -38,7 +53,7 @@ const AddRoomDrawer = ({ isOpen, onClose }) => {
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-gray-100">
-            <h2 className="text-xl font-bold text-gray-800">Xonani qo'shish</h2>
+            <h2 className="text-xl font-bold text-gray-800">Kurs qo'shish</h2>
             <button
               onClick={onClose}
               className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400 hover:text-gray-600"
@@ -49,31 +64,78 @@ const AddRoomDrawer = ({ isOpen, onClose }) => {
 
           {/* Form Content */}
           <div className="flex-1 p-6 overflow-y-auto">
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-5">
+              {/* Name */}
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-semibold text-gray-700">
-                  Nomi <span className="text-red-500">*</span>
+                  Kurs nomi <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  placeholder="Xona nomi"
+                  placeholder="Masalan: Backend"
                   className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#6C5DD3] focus:ring-2 focus:ring-[#6C5DD3]/20 outline-none transition-all placeholder:text-gray-400"
                 />
               </div>
 
+              {/* Description */}
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-semibold text-gray-700">
-                  Sig'imi <span className="text-red-500">*</span>
+                  Izoh
                 </label>
                 <input
                   type="text"
-                  name="capacity"
-                  value={formData.capacity}
+                  name="description"
+                  value={formData.description}
                   onChange={handleChange}
-                  placeholder="Masalan: 20"
+                  placeholder="Masalan: Yaxshi"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#6C5DD3] focus:ring-2 focus:ring-[#6C5DD3]/20 outline-none transition-all placeholder:text-gray-400"
+                />
+              </div>
+
+              {/* Duration */}
+              <div className="flex flex-col gap-2">
+                <label className="text-[14px] font-semibold text-gray-700">
+                  Dars davomiyligi (daqiqa) <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="duration"
+                  value={formData.duration}
+                  onChange={handleChange}
+                  placeholder="Masalan: 120 min"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#6C5DD3] focus:ring-2 focus:ring-[#6C5DD3]/20 outline-none transition-all placeholder:text-gray-400"
+                />
+              </div>
+
+              {/* Period */}
+              <div className="flex flex-col gap-2">
+                <label className="text-[14px] font-semibold text-gray-700">
+                  Kurs davomiyligi (oy) <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="period"
+                  value={formData.period}
+                  onChange={handleChange}
+                  placeholder="Masalan: 6 oy"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#6C5DD3] focus:ring-2 focus:ring-[#6C5DD3]/20 outline-none transition-all placeholder:text-gray-400"
+                />
+              </div>
+
+              {/* Price */}
+              <div className="flex flex-col gap-2">
+                <label className="text-[14px] font-semibold text-gray-700">
+                  Kurs narxi (so'm) <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="price"
+                  value={formData.price}
+                  onChange={handleChange}
+                  placeholder="Masalan: 2400000"
                   className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#6C5DD3] focus:ring-2 focus:ring-[#6C5DD3]/20 outline-none transition-all placeholder:text-gray-400"
                 />
               </div>
@@ -102,4 +164,4 @@ const AddRoomDrawer = ({ isOpen, onClose }) => {
   );
 };
 
-export default AddRoomDrawer;
+export default AddCourseDrawer;

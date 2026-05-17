@@ -5,6 +5,9 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import DashboardHome from "./Pages/Dashboard/DashboardHome";
 import SettingsLayout from "./Pages/Dashboard/Settings/SettingsLayout";
 import Rooms from "./Pages/Dashboard/Settings/Rooms";
+import Courses from "./Pages/Dashboard/Settings/Courses";
+import Students from "./Pages/Dashboard/Students";
+import Teachers from "./Pages/Dashboard/Teachers";
 
 // Placeholder component for other dashboard pages
 const Placeholder = ({ title }) => (
@@ -46,7 +49,7 @@ const Router = createBrowserRouter([
           },
           {
             path: "teachers",
-            element: <Placeholder title="O'qituvchilar" />,
+            element: <Teachers />,
           },
           {
             path: "classes",
@@ -54,7 +57,7 @@ const Router = createBrowserRouter([
           },
           {
             path: "students",
-            element: <Placeholder title="Talabalar" />,
+            element: <Students />,
           },
           {
             path: "gifts",
@@ -74,7 +77,7 @@ const Router = createBrowserRouter([
               },
               {
                 path: "courses",
-                element: <SettingsPlaceholder />,
+                element: <Courses />,
               },
               {
                 path: "rooms",

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -15,6 +15,64 @@ const AddGroupDrawer = ({ isOpen, onClose, onSave }) => {
     startDate: "",
     description: "",
   });
+
+  // Dropdown open states
+  const [isCourseDropdownOpen, setIsCourseDropdownOpen] = useState(false);
+  const [isRoomDropdownOpen, setIsRoomDropdownOpen] = useState(false);
+
+  // Dropdown options
+  const courseOptions = [
+    { value: "Backend", label: "Backend" },
+    { value: "Frontend", label: "Frontend" },
+    { value: "Design", label: "UX/UI Design" },
+    { value: "Mobile", label: "Mobile Development" }
+  ];
+
+  const roomOptions = [
+    { value: "Autodesk", label: "Autodesk" },
+    { value: "Amazon", label: "Amazon" },
+    { value: "Google", label: "Google" },
+    { value: "Intel", label: "Intel" }
+  ];
+
+  // Dropdown refs for click-outside detection
+  const courseRef = useRef(null);
+  const roomRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (courseRef.current && !courseRef.current.contains(event.target)) {
+        setIsCourseDropdownOpen(false);
+      }
+      if (roomRef.current && !roomRef.current.contains(event.target)) {
+        setIsRoomDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleSelectCourse = (value) => {
+    setFormData((prev) => ({ ...prev, course: value }));
+    setIsCourseDropdownOpen(false);
+  };
+
+  const handleSelectRoom = (value) => {
+    setFormData((prev) => ({ ...prev, room: value }));
+    setIsRoomDropdownOpen(false);
+  };
+
+  const getCourseDisplayText = () => {
+    if (isCourseDropdownOpen) return ""; // Blank when open to match the screenshot perfectly
+    if (!formData.course) return "Kursni tanlang";
+    return courseOptions.find(o => o.value === formData.course)?.label || formData.course;
+  };
+
+  const getRoomDisplayText = () => {
+    if (isRoomDropdownOpen) return ""; // Blank when open to match the screenshot perfectly
+    if (!formData.room) return "Xonani tanlang";
+    return roomOptions.find(o => o.value === formData.room)?.label || formData.room;
+  };
 
   // Selection states
   const [selectedTeachers, setSelectedTeachers] = useState([]);
@@ -206,50 +264,110 @@ const AddGroupDrawer = ({ isOpen, onClose, onSave }) => {
           </div>
 
           {/* Kurs Dropdown */}
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-1.5 relative" ref={courseRef}>
             <label className="text-[13.5px] font-bold text-gray-700">
               Kurs <span className="text-red-500">*</span>
             </label>
             <div className="relative">
-              <select
-                name="course"
-                value={formData.course}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#6C5DD3] focus:ring-2 focus:ring-[#6C5DD3]/15 outline-none transition-all text-[14px] text-gray-800 font-semibold appearance-none bg-white cursor-pointer"
+              <div
+                onClick={() => setIsCourseDropdownOpen(!isCourseDropdownOpen)}
+                className={`w-full px-4 py-3 rounded-xl border transition-all text-[14px] font-semibold bg-white cursor-pointer flex items-center justify-between select-none ${
+                  isCourseDropdownOpen
+                    ? "border-[#6C5DD3] ring-2 ring-[#6C5DD3]/15"
+                    : "border-gray-200"
+                }`}
               >
-                <option value="" disabled hidden>Kursni tanlang</option>
-                <option value="Backend">Backend</option>
-                <option value="Frontend">Frontend</option>
-                <option value="Design">UX/UI Design</option>
-                <option value="Mobile">Mobile Development</option>
-              </select>
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                <KeyboardArrowDownIcon />
+                <span
+                  className={
+                    !formData.course && !isCourseDropdownOpen
+                      ? "text-gray-400 font-medium"
+                      : "text-gray-800 font-semibold"
+                  }
+                >
+                  {getCourseDisplayText()}
+                </span>
+                <div
+                  className={`text-gray-400 transition-transform duration-200 ${
+                    isCourseDropdownOpen ? "rotate-180" : ""
+                  }`}
+                >
+                  <KeyboardArrowDownIcon />
+                </div>
               </div>
+
+              {/* Custom Dropdown List overlay */}
+              {isCourseDropdownOpen && (
+                <div className="absolute top-[calc(100%+4px)] left-0 w-full bg-white rounded-xl shadow-[0_4px_25px_rgba(0,0,0,0.08)] border border-gray-100 py-1 z-[100] animate-in fade-in slide-in-from-top-2 duration-150">
+                  {/* First item: gray placeholder */}
+                  <div className="px-4 py-2.5 text-[14px] font-medium text-gray-400 select-none cursor-default">
+                    Kursni tanlang
+                  </div>
+                  {/* Course Options */}
+                  {courseOptions.map((opt) => (
+                    <div
+                      key={opt.value}
+                      onClick={() => handleSelectCourse(opt.value)}
+                      className="px-4 py-2.5 text-[14px] text-gray-800 font-semibold hover:bg-gray-50 cursor-pointer transition-colors"
+                    >
+                      {opt.label}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
           {/* Xona Dropdown */}
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-1.5 relative" ref={roomRef}>
             <label className="text-[13.5px] font-bold text-gray-700">
               Xona <span className="text-red-500">*</span>
             </label>
             <div className="relative">
-              <select
-                name="room"
-                value={formData.room}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#6C5DD3] focus:ring-2 focus:ring-[#6C5DD3]/15 outline-none transition-all text-[14px] text-gray-800 font-semibold appearance-none bg-white cursor-pointer"
+              <div
+                onClick={() => setIsRoomDropdownOpen(!isRoomDropdownOpen)}
+                className={`w-full px-4 py-3 rounded-xl border transition-all text-[14px] font-semibold bg-white cursor-pointer flex items-center justify-between select-none ${
+                  isRoomDropdownOpen
+                    ? "border-[#6C5DD3] ring-2 ring-[#6C5DD3]/15"
+                    : "border-gray-200"
+                }`}
               >
-                <option value="" disabled hidden>Xonani tanlang</option>
-                <option value="Autodesk">Autodesk</option>
-                <option value="Amazon">Amazon</option>
-                <option value="Google">Google</option>
-                <option value="Intel">Intel</option>
-              </select>
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                <KeyboardArrowDownIcon />
+                <span
+                  className={
+                    !formData.room && !isRoomDropdownOpen
+                      ? "text-gray-400 font-medium"
+                      : "text-gray-800 font-semibold"
+                  }
+                >
+                  {getRoomDisplayText()}
+                </span>
+                <div
+                  className={`text-gray-400 transition-transform duration-200 ${
+                    isRoomDropdownOpen ? "rotate-180" : ""
+                  }`}
+                >
+                  <KeyboardArrowDownIcon />
+                </div>
               </div>
+
+              {/* Custom Dropdown List overlay */}
+              {isRoomDropdownOpen && (
+                <div className="absolute top-[calc(100%+4px)] left-0 w-full bg-white rounded-xl shadow-[0_4px_25px_rgba(0,0,0,0.08)] border border-gray-100 py-1 z-[100] animate-in fade-in slide-in-from-top-2 duration-150">
+                  {/* First item: gray placeholder */}
+                  <div className="px-4 py-2.5 text-[14px] font-medium text-gray-400 select-none cursor-default">
+                    Xonani tanlang
+                  </div>
+                  {/* Room Options */}
+                  {roomOptions.map((opt) => (
+                    <div
+                      key={opt.value}
+                      onClick={() => handleSelectRoom(opt.value)}
+                      className="px-4 py-2.5 text-[14px] text-gray-800 font-semibold hover:bg-gray-50 cursor-pointer transition-colors"
+                    >
+                      {opt.label}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 

@@ -13,7 +13,9 @@ import Groups from "./Pages/Dashboard/Groups";
 // Placeholder component for other dashboard pages
 const Placeholder = ({ title }) => (
   <div className="flex items-center justify-center h-full min-h-[400px]">
-    <h2 className="text-2xl font-bold text-gray-400">{title} sahifasi hozircha bo'sh</h2>
+    <h2 className="text-2xl font-bold text-gray-400">
+      {title} sahifasi hozircha bo'sh
+    </h2>
   </div>
 );
 
@@ -22,7 +24,9 @@ const SettingsPlaceholder = () => {
   const path = location.pathname.split("/").pop() || "Boshqarish";
   return (
     <div className="flex items-center justify-center h-full min-h-[400px]">
-      <h2 className="text-2xl font-bold text-gray-400 capitalize">{path} sozlamalari sahifasi hozircha bo'sh</h2>
+      <h2 className="text-2xl font-bold text-gray-400 capitalize">
+        {path} sozlamalari sahifasi hozircha bo'sh
+      </h2>
     </div>
   );
 };
@@ -38,7 +42,7 @@ const Router = createBrowserRouter([
       },
       {
         path: "/login",
-        element: <Loginpage />,
+        element: <Loginpage/>,
       },
       {
         path: "/dashboard",

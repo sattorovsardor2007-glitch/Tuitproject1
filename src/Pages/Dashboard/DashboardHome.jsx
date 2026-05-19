@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
@@ -20,10 +21,54 @@ const StatCard = ({ title, count, icon }) => {
 };
 
 const DashboardHome = () => {
+  const [user, setUser] = useState(null);
   const [isScheduleOpen, setIsScheduleOpen] = useState(false);
   const [isPaymentsOpen, setIsPaymentsOpen] = useState(false);
   const [isProfitOpen, setIsProfitOpen] = useState(false);
+  const getUser = async () => { 
+    try {
+      const token = localStorage.getItem("token");
 
+      const response = await axios.get(
+        "https://najot-edu.softwareengineer.uz/api/v1/users/admin/all",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log(response.data);
+
+      const users = response.data?.data || [];
+console.log("USERS:", users);
+console.log("LOCAL:", localStorage.getItem("phone"));
+
+users.forEach((u) => {
+  console.log("COMPARE:", u.phone);
+});
+const currentPhone = localStorage.getItem("phone");
+
+const currentUser = users.find((item) => {
+  const apiPhone = item.phone?.replace(/\D/g, "");
+  const localPhone = currentPhone?.replace(/\D/g, "");
+
+  return apiPhone === localPhone;
+});
+console.log("API USERS:", users);
+console.log("CURRENT PHONE:", currentPhone);
+console.log("FOUND USER:", currentUser);
+
+setUser(currentUser);
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
   const stats = [
     { title: "Faol talabalar", count: "60", icon: <SchoolOutlinedIcon fontSize="large" /> },
     { title: "Guruhlar", count: "23", icon: <GroupsOutlinedIcon fontSize="large" /> },
@@ -38,7 +83,7 @@ const DashboardHome = () => {
       {/* Greeting Section */}
       <div>
         <h1 className="text-[28px] font-bold text-gray-900 mb-1">
-          Salom, Umarov Dilshodjon!
+       Salom, {user?.first_name} {user?.last_name}!
         </h1>
         <p className="text-gray-500 text-[14px]">
           EduCoin platformasiga xush kelibsiz!

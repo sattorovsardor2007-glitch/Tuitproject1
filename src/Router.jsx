@@ -9,6 +9,8 @@ import Courses from "./Pages/Dashboard/Settings/Courses";
 import Students from "./Pages/Dashboard/Students";
 import Teachers from "./Pages/Dashboard/Teachers";
 import Groups from "./Pages/Dashboard/Groups";
+import Protect from "./Auth/Protect";
+import Public from "./Auth/Public";
 
 // Placeholder component for other dashboard pages
 const Placeholder = ({ title }) => (
@@ -41,12 +43,20 @@ const Router = createBrowserRouter([
         element: <Navigate to="/login" replace />,
       },
       {
-        path: "/login",
-        element: <Loginpage/>,
-      },
+  path: "/login",
+  element: (
+    <Public>
+      <Loginpage />
+    </Public>
+  ),
+},
       {
-        path: "/dashboard",
-        element: <DashboardLayout />,
+          path: "/dashboard",
+  element: (
+    <Protect>
+      <DashboardLayout />
+    </Protect>
+  ),
         children: [
           {
             index: true,

@@ -25,6 +25,10 @@ const handleLogin = async (e) => {
   e.preventDefault();
 
   try {
+    const formattedPhone = phone.startsWith("998")
+      ? phone
+      : `998${phone}`;
+
     const response = await axios({
       method: "POST",
       url: "https://najot-edu.softwareengineer.uz/api/v1/auth/login",
@@ -32,7 +36,7 @@ const handleLogin = async (e) => {
         "Content-Type": "application/json",
       },
       data: {
-        phone: phone,
+        phone: formattedPhone,
         password: password,
       },
     });
@@ -43,6 +47,7 @@ const handleLogin = async (e) => {
       "token",
       response.data?.accessToken || ""
     );
+    localStorage.setItem("phone", formattedPhone);
 
     navigate("/dashboard");
 

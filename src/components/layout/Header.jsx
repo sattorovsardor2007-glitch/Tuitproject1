@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
@@ -8,7 +9,41 @@ const Header = ({ toggleSidebar }) => {
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+const [user, setUser] = useState(null);
+const getUser = async () => {
+  try {
+    const token = localStorage.getItem("token");
 
+    const response = await axios.get(
+      "https://najot-edu.softwareengineer.uz/api/v1/users/admin/all",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const users = response.data?.data || [];
+
+    const currentPhone = localStorage.getItem("phone");
+
+   const currentUser = users.find((item) => {
+  const apiPhone = item.phone?.replace(/\D/g, "");
+  const localPhone = currentPhone?.replace(/\D/g, "");
+
+  return apiPhone === localPhone;
+});
+
+    setUser(currentUser);
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+useEffect(() => {
+  getUser();
+}, []);
   const toggleDarkMode = () => {
     document.documentElement.classList.toggle('dark');
   };
@@ -88,17 +123,39 @@ const Header = ({ toggleSidebar }) => {
             className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden border-2 border-white shadow-sm cursor-pointer block"
           >
             <img
-              src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
+              src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.first_name}`}
               alt="User avatar"
               className="w-full h-full object-cover bg-blue-100"
             />
           </button>
-          {isProfileOpen && (
-            <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50">
-              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Profil sozlamalari</a>
-              <a href="#" className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-50 border-t border-gray-100 mt-1 pt-2">Chiqish</a>
-            </div>
-          )}
+         {isProfileOpen && (
+  <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50">
+
+    <div className="px-4 py-3 border-b border-gray-100">
+      <p className="font-semibold text-sm text-gray-800">
+        {user?.first_name} {user?.last_name}
+      </p>
+
+      <p className="text-xs text-gray-500">
+        {user?.phone}
+      </p>
+    </div>
+
+    <a
+      href="#"
+      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+    >
+      Profil sozlamalari
+    </a>
+
+    <a
+      href="#"
+      className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-50 border-t border-gray-100 mt-1 pt-2"
+    >
+      Chiqish
+    </a>
+  </div>
+)}
         </div>
       </div>
     </header>

@@ -47,6 +47,8 @@ const handleLogin = async (e) => {
       "token",
       response.data?.accessToken || ""
     );
+    localStorage.setItem("first_name", "Sardor");
+localStorage.setItem("last_name", "");
     localStorage.setItem("phone", formattedPhone);
 
     navigate("/dashboard");

@@ -11,7 +11,7 @@ import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutline
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
 
-const SettingsSidebar = ({ isOpen }) => {
+const SettingsSidebar = ({ isOpen, onItemClick }) => {
   const menuItems = [
     { name: "Kurslar", path: "/dashboard/settings/courses", icon: <ClassOutlinedIcon fontSize="small" /> },
     { name: "Xonalar", path: "/dashboard/settings/rooms", icon: <MeetingRoomOutlinedIcon fontSize="small" /> },
@@ -35,6 +35,7 @@ const SettingsSidebar = ({ isOpen }) => {
           <NavLink
             key={item.name}
             to={item.path}
+            onClick={onItemClick}
             className={({ isActive }) =>
               `flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-[14px] font-medium ${
                 isActive

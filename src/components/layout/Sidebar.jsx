@@ -53,7 +53,7 @@ const Sidebar = ({ isOpen, onIconClick, onSettingsClick }) => {
             end={item.path === "/dashboard"}
             onClick={(e) => {
               if (item.path === "/dashboard/settings" && onSettingsClick) {
-                onSettingsClick();
+                onSettingsClick(e);
               }
               if (!isOpen && onIconClick) {
                 // If already in this section, prevent navigating to the base path

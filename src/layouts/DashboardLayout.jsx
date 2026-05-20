@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "../components/layout/Sidebar";
 import SettingsSidebar from "../components/layout/SettingsSidebar";
@@ -11,32 +11,48 @@ const DashboardLayout = () => {
   const isSettingsActive = location.pathname.includes('/dashboard/settings');
   const isSettingsRoot = location.pathname === '/dashboard/settings';
 
+  const sidebarAreaRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Close the menu if clicked outside the sidebar/menu area
+      if (sidebarAreaRef.current && !sidebarAreaRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const toggleSidebar = () => {
-    const newState = !isSidebarOpen;
-    setIsSidebarOpen(newState);
-    setIsMenuOpen(newState);
+    setIsSidebarOpen(prev => !prev);
   };
 
   const handleIconClick = () => {
     setIsSidebarOpen(true);
-    setIsMenuOpen(true);
   };
 
-  const handleContentClick = () => {
-    if (isSettingsRoot && isSettingsActive) {
-      setIsMenuOpen(false);
+  const handleSettingsClick = (e) => {
+    if (isSettingsActive) {
+      if (e) e.preventDefault();
+      setIsMenuOpen(prev => !prev);
+    } else {
+      setIsMenuOpen(true);
     }
   };
 
   return (
     <div className="flex h-screen bg-[#f8f9fc] overflow-hidden font-sans relative">
       {/* Sidebar Area with toggle button on its edge */}
-      <div className="relative z-50 flex-shrink-0 h-full flex">
-        <div className="relative h-full">
+      <div ref={sidebarAreaRef} className="relative z-50 flex-shrink-0 h-full flex">
+        <div className="relative h-full z-20">
           <Sidebar 
             isOpen={isSidebarOpen} 
             onIconClick={handleIconClick} 
-            onSettingsClick={() => setIsMenuOpen(true)} 
+            onSettingsClick={handleSettingsClick} 
           />
           
           {/* Collapse Button placed between Sidebar and SettingsSidebar */}
@@ -50,19 +66,23 @@ const DashboardLayout = () => {
           </button>
         </div>
         
-        {isSettingsRoot && isSettingsActive && (
-          <SettingsSidebar isOpen={isSidebarOpen && isMenuOpen} />
+        {/* Absolute positioned overlay menu so it covers Header and main content */}
+        {isSettingsActive && (
+          <div className="absolute top-0 bottom-0 left-full z-10 pointer-events-none">
+            <div className="pointer-events-auto h-full shadow-xl">
+              <SettingsSidebar isOpen={isMenuOpen} onItemClick={() => setIsMenuOpen(false)} />
+            </div>
+          </div>
         )}
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative z-0">
         {/* Header */}
         <Header toggleSidebar={toggleSidebar} />
 
         {/* Page Content */}
         <main 
-          onClick={handleContentClick}
           className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8"
         >
           <Outlet />

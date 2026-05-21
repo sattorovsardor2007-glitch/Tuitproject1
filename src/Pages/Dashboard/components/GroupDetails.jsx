@@ -20,6 +20,7 @@ import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
 import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutlineOutlined";
 
 const GroupDetails = ({ group, onBack }) => {
   const [activeTab, setActiveTab] = useState("info");
@@ -33,6 +34,7 @@ const GroupDetails = ({ group, onBack }) => {
 
   const [selectedTopicDetails, setSelectedTopicDetails] = useState(null);
   const [topicTab, setTopicTab] = useState("kutayotganlar");
+  const [isAddingVideo, setIsAddingVideo] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -601,7 +603,13 @@ const GroupDetails = ({ group, onBack }) => {
             </div>
 
             <button 
-              onClick={() => setIsCreatingHomework(true)}
+              onClick={() => {
+                if (activeSubTab === "videos") {
+                  setIsAddingVideo(true);
+                } else {
+                  setIsCreatingHomework(true);
+                }
+              }}
               className="bg-[#10B981] text-white px-6 py-2.5 rounded-xl font-bold text-[14px] hover:bg-[#059669] transition-colors cursor-pointer shadow-sm shadow-emerald-500/20"
             >
               Qo'shish
@@ -609,6 +617,7 @@ const GroupDetails = ({ group, onBack }) => {
           </div>
 
           {/* Table Area */}
+          {activeSubTab === "homework" && (
           <div className="bg-white rounded-3xl pt-2 pb-6 px-6 shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-gray-100/60 mt-1">
             <div className="w-full overflow-x-auto rounded-t-2xl">
               <table className="w-full text-left border-collapse min-w-full mt-4">
@@ -705,6 +714,128 @@ const GroupDetails = ({ group, onBack }) => {
                   </tr>
                 </tbody>
               </table>
+            </div>
+          </div>
+          )}
+
+          {activeSubTab === "videos" && (
+          <div className="bg-white rounded-3xl pt-2 pb-6 px-6 shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-gray-100/60 mt-1">
+            <div className="w-full overflow-x-auto rounded-t-2xl">
+              <table className="w-full text-left border-collapse min-w-full mt-4">
+                <thead>
+                  <tr className="border-b border-gray-100 text-[13px] font-bold text-gray-500">
+                    <th className="pb-4 pt-2 px-2 w-[50px] text-center">#</th>
+                    <th className="pb-4 pt-2 px-4">Video nomi</th>
+                    <th className="pb-4 pt-2 px-4">Dars nomi</th>
+                    <th className="pb-4 pt-2 px-4">Status</th>
+                    <th className="pb-4 pt-2 px-4">Dars sanasi</th>
+                    <th className="pb-4 pt-2 px-4">Hajmi</th>
+                    <th className="pb-4 pt-2 px-4">Qo'shilgan vaqti</th>
+                    <th className="pb-4 pt-2 px-2 w-[50px]"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b border-gray-100/60 hover:bg-[#F8FAFC] transition-colors group cursor-pointer">
+                    <td className="py-5 px-2 text-[14px] font-semibold text-gray-700 text-center">1</td>
+                    <td className="py-5 px-4 whitespace-nowrap">
+                      <div className="flex items-center gap-2">
+                        <PlayCircleOutlineIcon sx={{ fontSize: 20 }} className="text-[#3B82F6]" />
+                        <span className="text-[14px] font-bold text-[#3B82F6]">Bitiruv.mp4</span>
+                      </div>
+                    </td>
+                    <td className="py-5 px-4 text-[13.5px] font-semibold text-gray-800">Nodejs</td>
+                    <td className="py-5 px-4">
+                      <span className="bg-[#E6F4EA] text-[#10B981] px-3 py-1 rounded-full text-[12px] font-bold">
+                        Tayyor
+                      </span>
+                    </td>
+                    <td className="py-5 px-4 text-[13.5px] font-semibold text-gray-600">14 May, 2026</td>
+                    <td className="py-5 px-4 text-[13.5px] font-semibold text-gray-600">3.53 MB</td>
+                    <td className="py-5 px-4 text-[13.5px] font-semibold text-gray-600">18 May, 2026</td>
+                    <td className="py-5 px-2 text-center">
+                      <button className="text-gray-300 hover:text-gray-500 cursor-pointer">
+                        <MoreVertIcon sx={{ fontSize: 20 }} />
+                      </button>
+                    </td>
+                  </tr>
+                  
+                  <tr className="hover:bg-[#F8FAFC] transition-colors group cursor-pointer">
+                    <td className="py-5 px-2 text-[14px] font-semibold text-gray-700 text-center">2</td>
+                    <td className="py-5 px-4 whitespace-nowrap">
+                      <div className="flex items-center gap-2">
+                        <PlayCircleOutlineIcon sx={{ fontSize: 20 }} className="text-[#3B82F6]" />
+                        <span className="text-[14px] font-bold text-[#3B82F6]">Bitiruv.mp4</span>
+                      </div>
+                    </td>
+                    <td className="py-5 px-4 text-[13.5px] font-semibold text-gray-800">Html asoslari</td>
+                    <td className="py-5 px-4">
+                      <span className="bg-[#E6F4EA] text-[#10B981] px-3 py-1 rounded-full text-[12px] font-bold">
+                        Tayyor
+                      </span>
+                    </td>
+                    <td className="py-5 px-4 text-[13.5px] font-semibold text-gray-600">12 May, 2026</td>
+                    <td className="py-5 px-4 text-[13.5px] font-semibold text-gray-600">3.53 MB</td>
+                    <td className="py-5 px-4 text-[13.5px] font-semibold text-gray-600">18 May, 2026</td>
+                    <td className="py-5 px-2 text-center">
+                      <button className="text-gray-300 hover:text-gray-500 cursor-pointer">
+                        <MoreVertIcon sx={{ fontSize: 20 }} />
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          )}
+        </div>
+      )}
+
+      {/* Video Qo'shish Modal */}
+      {isAddingVideo && (
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl w-full max-w-[700px] flex flex-col shadow-2xl animate-in fade-in zoom-in duration-200">
+            {/* Header */}
+            <div className="flex items-center justify-between px-8 py-5">
+              <h3 className="text-[17px] font-bold text-gray-900">Qo'shish</h3>
+              <button 
+                onClick={() => setIsAddingVideo(false)}
+                className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
+              >
+                <CloseIcon sx={{ fontSize: 20 }} />
+              </button>
+            </div>
+            
+            {/* Body */}
+            <div className="px-8 pb-6 flex flex-col gap-6">
+              <div 
+                onClick={() => fileInputRef.current?.click()}
+                className="border border-dashed border-gray-300 rounded-xl bg-white flex flex-col items-center justify-center py-20 cursor-pointer hover:bg-gray-50 transition-colors"
+              >
+                <input type="file" ref={fileInputRef} className="hidden" />
+                <div className="text-[#10B981] mb-5">
+                  <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="4" y="7" width="16" height="14" rx="2" ry="2" />
+                    <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+                    <line x1="12" y1="11" x2="12" y2="17" />
+                    <line x1="9" y1="14" x2="15" y2="14" />
+                  </svg>
+                </div>
+                <span className="text-[14px] font-bold text-gray-800 mb-2 text-center">
+                  Videofaylni yuklash uchun ushbu hudud ustiga bosing yoki faylni shu yerga olib keling
+                </span>
+                <span className="text-[12.5px] font-medium text-gray-400 text-center px-4">
+                  Videofayl: .mp4, .webm, .mpeg, .avi, .mkv, .m4v, .ogm, .mov formatlaridan birida bo'lishi kerak
+                </span>
+              </div>
+
+              <div className="flex justify-end">
+                <button 
+                  onClick={() => setIsAddingVideo(false)}
+                  className="text-[14px] font-bold text-gray-500 hover:text-gray-700 transition-colors cursor-pointer px-4 py-2"
+                >
+                  Bekor qilish
+                </button>
+              </div>
             </div>
           </div>
         </div>
